@@ -6,7 +6,7 @@ function virtualenv_prompt_info {
 }
 
 function prompt_char {
-  command git branch &>/dev/null && echo "─┤▶" || echo '─┤○'
+  command git branch &>/dev/null && echo "┤●" || echo '┤○'
 }
 
 function box_name {
@@ -15,22 +15,29 @@ function box_name {
   echo "${box:gs/%/%%}"
 }
 
+function java_version_info {
+  local version
+  version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
+  echo "$version"
+}
+
+local java_info='$(java_version_info)'
 local nvm_info='$(nvm_prompt_info)'
 local git_info='$(git_prompt_info)'
 local virtualenv_info='$(virtualenv_prompt_info)'
 local prompt_char='$(prompt_char)'
 
-PROMPT="${FG[040]}╭─${FG[202]}👽 { dev : ${FG[227]}F.L.C ${FG[202]}} ${FG[239]}in %B${FG[226]}%~%b${git_info} (${nvm_info})
-${FG[040]}╰─${prompt_char}%{$reset_color%} "
+PROMPT="%B%{$FG[001]%}╭─${FG[202]}👽 { dev : ${FG[226]}F.L.C ${FG[202]}} ${FG[255]}on %B${FG[226]}%~%b${git_info}
+${FG[001]}╰─${prompt_char}%{$reset_color%} $  "
 
-ZSH_THEME_GIT_PROMPT_PREFIX=" ${FG[239]}on%{$reset_color%} ${FG[255]}"
+
+local ja="${FG[202]}{ node : ${FG[226]}${java_info}${FG[202]} } ${FG[239]}"
+local no="${FG[202]}{ java : ${FG[226]}${nvm_info}${FG[202]} } ${FG[239]}"
+
+RPROMPT="${ja}${no}"
+
+ZSH_THEME_GIT_PROMPT_PREFIX=" %B%{$FG[255]%}in%{$reset_color%} ${FG[255]}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="${FG[202]} ✘"
-ZSH_THEME_GIT_PROMPT_CLEAN="${FG[040]} ✔"
-
-ZSH_THEME_RUBY_PROMPT_PREFIX=" ${FG[239]}using${FG[243]} ‹"
-ZSH_THEME_RUBY_PROMPT_SUFFIX="›%{$reset_color%}"
-
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-ZSH_THEME_VIRTUALENV_PREFIX=" ${FG[239]}using${FG[243]} «"
-ZSH_THEME_VIRTUALENV_SUFFIX="»%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%B%{$FG[001]%} %{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="%B%{$FG[040]%} ✔%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_ADDED="%B%{$FG[001]%} ✚%{$reset_color%}"
