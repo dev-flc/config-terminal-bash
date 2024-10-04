@@ -38,6 +38,6 @@ RPROMPT="${ja}${no}"
 
 ZSH_THEME_GIT_PROMPT_PREFIX=" %B%{$FG[255]%}in%{$reset_color%} ${FG[255]}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_ADDED="%B%{$FG[001]%} ✚%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY="%B%{$FG[001]%} %{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_CLEAN="%B%{$FG[040]%} ✔%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_ADDED="%B%{$FG[001]%} ✚%{$reset_color%}"
