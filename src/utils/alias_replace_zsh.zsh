@@ -12,10 +12,9 @@
 # alias la='ls -A'
 
 # B A S H
-alias reload='source ~/.bashrc'
-alias configbash='code ~/.bashrc'
-alias configbashwin='code /etc/bash.bashrc'
-alias suspend='systemctl suspend'
+alias reloadzsh='source ~/.zshrc'
+alias configzsh='code ~/.zshrc'
+alias congizshdir= 'code ~/.oh-my-zsh'
 
 # N P M
 alias dev='npm run dev'
@@ -36,11 +35,10 @@ alias drun=dockerrun
 alias dpush=dockerpush
 
 # D I R E C T O R Y
-alias pj="cd ${HOME}/Documentos/projects"
-alias vault="cd ${HOME}/Documentos/projects/gnp/gke-gnp-test-vault-secret"
-alias gnp="cd ${HOME}/Documentos/projects/gnp"
-alias example="cd ${HOME}/Documentos/projects/exmaple"
-alias projectswin="cd ${HOME}/Documents/projects"
+alias pj="cd ${HOME}/REPLACE/projects"
+alias vault="cd ${HOME}/REPLACE/projects/gnp/gke-gnp-test-vault-secret"
+alias gnp="cd ${HOME}/REPLACE/projects/gnp"
+alias example="cd ${HOME}/REPLACE/projects/exmaple"
 
 # G I T
 alias configgit='git config --global -e'

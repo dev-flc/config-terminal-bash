@@ -11,7 +11,7 @@ _array_as_json_colors() {
     txtgrn='\e[1;32m'
     txtrst='\e[0m'
 
-    echo -e "${txtylw}{${txtrst}"  # Abrir la estructura JSON
+    printf "${txtylw}{${txtrst}\n"  # Abrir la estructura JSON
 
     for i in "${!keys[@]}"; do
         # Añadir la llave personalizada en color azul
@@ -31,6 +31,6 @@ _array_as_json_colors() {
     done
 
     # Imprimir el JSON generado
-    echo -e "$json"
-    echo -e "${txtylw}}${txtrst}"  # Cerrar la estructura JSON
+    printf "$json\n"
+    printf "${txtylw}}${txtrst}"  # Cerrar la estructura JSON
 }

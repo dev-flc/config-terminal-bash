@@ -7,15 +7,15 @@ _generate_message_zsh() {
 
     if [ "$message_type" -eq 1 ]; then
         # Mensaje tipo 1: con delimitadores
-		echo -e "${bldblu}========== ${bakblu}$message${txtrst} ${bldblu}========== ${txtrst}"
+		printf "${bldblu}========== ${bakblu}$message${txtrst} ${bldblu}========== ${txtrst}"
     elif [ "$message_type" -eq 2 ]; then
         # Mensaje tipo 2: mensaje simple
-        echo -e "${txtylw}$message${txtrst}"
+        printf "${txtylw}$message${txtrst}"
 
     elif [ "$message_type" -eq 3 ]; then
         # Mensaje tipo 2: mensaje simple
-        echo -e "${bldred}$message${txtrst}"
+        printf "${bldred}$message${txtrst}"
     else
-        echo "Tipo de mensaje no válido. Usa 1 o 2."
+        printf "Tipo de mensaje no válido. Usa 1 o 2."
     fi
 }

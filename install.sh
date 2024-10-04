@@ -18,7 +18,7 @@ install_packages(){
      # Añadir Homebrew al PATH si es necesario (solo en Linux)
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         _generate_message 2 "Añadiendo Homebrew al PATH..."
-        echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc
+        printf 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     fi
 		# Instalar dependencias esenciales
@@ -85,6 +85,37 @@ install_packages(){
 
 }
 
+replace_dir_alias(){
+
+	_generate_message 1 "Generando alias"
+
+	local CURRENT_PATH=$(pwd)
+	local ALIAS_FILE="alias_replace_zsh.zsh"
+	local HOME_DIR="$HOME"
+
+	# ========= Eliminando copia del archivo original ==========
+	local URL_NEW_FILE="$CURRENT_PATH/src/utils/alias_zsh.zsh"
+	rm -rf "$URL_NEW_FILE"
+	# ========= Generar una copia del archivo original ==========
+	cp "$CURRENT_PATH/src/utils/alias_replace_zsh.zsh" "$URL_NEW_FILE"
+
+	# ========= Verificar si existe la carpeta "documents" o "documentos" en $HOME =========
+	if [ -d "${HOME_DIR}/Documents" ]; then
+		REPLACE_DIR="Documents"
+	elif [ -d "${HOME_DIR}/Documentos" ]; then
+		REPLACE_DIR="Documentos"
+	else
+		_generate_message 1 "Ninguna de las carpetas 'documents' o 'documentos' existe en el directorio HOME."
+		return
+	fi
+	# ========= Reemplazar "REPLACE" por la carpeta correspondiente en el nuevo archivo =========
+	if [[ "$OSTYPE" == "darwin"* ]]; then
+		sed -i '' "s/REPLACE/$REPLACE_DIR/g" "$URL_NEW_FILE"
+	else
+		sed -i "s/REPLACE/$REPLACE_DIR/g" "$URL_NEW_FILE"
+	fi
+}
+
 customize_shell_config(){
 	# ========= Variables ==========
 	local SO="$1"
@@ -96,16 +127,17 @@ customize_shell_config(){
 	local RUTE_OH_MY_ZSH_CUSTOM="$RUTE_OH_MY_ZSH/custom"
 
 	_generate_message 1 "Paquetes ha Instalar"
-	echo ""
 	# ========= Menu de paquetes ==========
 	values=("Homebrew" "Zsh" "curl" "Oh My Zsh" "grep")
 	keys=("0" "1" "2" "3" "4")
 	_array_as_json_colors keys[@] values[@]
-	echo ""
+	printf ""
 
 	# ========= Instalando paquetes ==========
 	install_packages
 
+	# ========= Creando alias  de documentos ==========
+	replace_dir_alias
 	# ========= Eliminando y creando los archivos custom ==========
 	_generate_message 1 "Instalando archivos de oh-my-zsh"
 	if [ -f "$RUTE_ZSHRC_FILE" ]; then
@@ -133,19 +165,24 @@ customize_shell_config(){
 			cp -r "$CURRENT_PATH/src/funtions/_generate_message_zsh.zsh" "$RUTE_OH_MY_ZSH_CUSTOM/funtions/_generate_message_zsh.zsh"
 
 			local SOURCE_LINE_MAIN="source '$RUTE_OH_MY_ZSH_CUSTOM/main.sh'"
-
 			# ========= validamos si ya sxiste el main en el archivo .zshrc ==========
 			if ! grep -Fxq "$SOURCE_LINE_MAIN" "$RUTE_ZSHRC_FILE"; then
-			# ========= Agregando el archivo main al .zshrc ==========
+				# ========= Agregando el archivo main al .zshrc ==========
 				_generate_message 1 "Agregando el archivo main al .zshrc"
-				echo "source '$RUTE_OH_MY_ZSH_CUSTOM/main.sh'" >> "$RUTE_ZSHRC_FILE"
+				printf "source '$RUTE_OH_MY_ZSH_CUSTOM/main.sh'" >> "$RUTE_ZSHRC_FILE"
 			fi
-
 			# ========= Agregando el nombre del tema al archivo zshrc ==========
 			_generate_message 1 "Agregando el tema al .zshrc"
-			sed -i "s/^ZSH_THEME=\".*\"/ZSH_THEME=\"$NAME_THEME\"/" "$RUTE_ZSHRC_FILE"
+			if [[ "$OSTYPE" == "darwin"* ]]; then
+				sed -i '' "s/^ZSH_THEME=\".*\"/ZSH_THEME=\"$NAME_THEME\"/" "$RUTE_ZSHRC_FILE"
+			else
+				sed -i "s/^ZSH_THEME=\".*\"/ZSH_THEME=\"$NAME_THEME\"/" "$RUTE_ZSHRC_FILE"
+			fi
+			# ========= Eliminando copia del archivo original ==========
+			local URL_NEW_FILE="$CURRENT_PATH/src/utils/alias_zsh.zsh"
+			rm -rf "$URL_NEW_FILE"
 
-			echo ""
+			printf ""
 			_generate_message 4 "Instalación completada. Reinicia la terminal para ver los cambios."
 		else
 			_generate_message 3 "El directorio $RUTE_OH_MY_ZSH_CUSTOM no existe."

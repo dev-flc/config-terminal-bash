@@ -9,7 +9,6 @@ function prompt_char {
   command git branch &>/dev/null && echo "─┤▶" || echo '─┤○'
 }
 
-
 function box_name {
   local box="${SHORT_HOST:-$HOST}"
   [[ -f ~/.box-name ]] && box="$(< ~/.box-name)"
@@ -21,7 +20,7 @@ local git_info='$(git_prompt_info)'
 local virtualenv_info='$(virtualenv_prompt_info)'
 local prompt_char='$(prompt_char)'
 
-PROMPT="${FG[040]}╭─${FG[202]}👽 { dev : ${FG[227]}F.L.C ${FG[202]}} ${FG[239]}in %B${FG[226]}%~%b${git_info} ${nvm_info}
+PROMPT="${FG[040]}╭─${FG[202]}👽 { dev : ${FG[227]}F.L.C ${FG[202]}} ${FG[239]}in %B${FG[226]}%~%b${git_info} (${nvm_info})
 ${FG[040]}╰─${prompt_char}%{$reset_color%} "
 
 ZSH_THEME_GIT_PROMPT_PREFIX=" ${FG[239]}on%{$reset_color%} ${FG[255]}"
