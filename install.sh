@@ -5,89 +5,96 @@ source "./src/utils/colors.sh"
 source "./src/funtions/_array_as_json_colors.sh"
 source "./src/funtions/_generate_message.sh"
 
+# ========= Funcion para determinar el tipo de sistema operativo ==========
+get_os_type() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        printf "macos"
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        printf "linux"
+    else
+        printf "Sistema operativo no soportado..."
+    fi
+}
 
 # ========= Funcion para instalar paquetes ==========
-install_packages(){
+install_packages() {
+    local os_type=$1
+    shift
+    local packages=("$@")
+    local keys=()
+    local values=()
 
-	local keys=()
-	local values=()
-
-	if ! command -v brew &> /dev/null; then
-    _generate_message 2 "Procediendo a instalar Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-     # Añadir Homebrew al PATH si es necesario (solo en Linux)
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        _generate_message 2 "Añadiendo Homebrew al PATH..."
-        printf 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    if [[ "$os_type" != "macos" && "$os_type" != "linux" ]]; then
+        _generate_message 1 "Sistema operativo no soportado: $os_type"
+        return 1
     fi
-		# Instalar dependencias esenciales
-		_generate_message 2 "Instalando dependencias de Homebrew..."
-		sudo apt-get install build-essential -y
-		# Recomendar la instalación de GCC
-		_generate_message 2 "Instalando GCC para Homebrew..."
-		brew install gcc
-	else
-		keys+=("Homebrew")
-		values+=("✔")
-	fi
 
-	# Comprobar e instalar zsh
-	if ! command -v zsh &> /dev/null; then
-		_generate_message 2 "Procediendo a instalar zsh..."
-		if [[ "$OSTYPE" == "darwin"* ]]; then
-			brew install zsh
-		else
-			sudo apt update && sudo apt install zsh -y
-		fi
-	else
-		keys+=("zsh")
-		values+=("✔")
-	fi
+    for package in "${packages[@]}"; do
+        case "$package" in
+            "brew")
+                if ! command -v brew &> /dev/null; then
+                    _generate_message 2 "Procediendo a instalar Homebrew..."
+                    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+                    if [[ "$os_type" == "linux" ]]; then
+                        _generate_message 2 "Añadiendo Homebrew al PATH..."
+                        printf 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc
+                        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+                        # Instalar dependencias esenciales
+                        _generate_message 2 "Instalando dependencias de Homebrew..."
+                        sudo apt-get install build-essential -y
+                        # Recomendar la instalación de GCC
+                        _generate_message 2 "Instalando GCC para Homebrew..."
+                        brew install gcc
+                    fi
+                else
+                    keys+=("Homebrew")
+                    values+=("✔")
+                fi
+                ;;
+            "zsh"|"curl"|"grep")
+                if ! command -v $package &> /dev/null; then
+                    _generate_message 2 "Procediendo a instalar $package..."
+                    if [[ "$os_type" == "macos" ]]; then
+                        brew install $package
+                    elif [[ "$os_type" == "linux" ]]; then
+                        sudo apt update && sudo apt install $package -y
+                    fi
+                else
+                    keys+=("$package")
+                    values+=("✔")
+                fi
+                ;;
+            "oh-my-zsh")
+                if [ ! -d "$HOME/.oh-my-zsh" ]; then
+                    _generate_message 2 "Procediendo a instalar Oh My Zsh..."
+                    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+                else
+                    keys+=("oh-my-zsh")
+                    values+=("✔")
+                fi
+                ;;
+            "bun")
+                if ! command -v bun &> /dev/null; then
+                    _generate_message 2 "Procediendo a instalar bun..."
+                    curl -fsSL https://bun.sh/install | bash
+                    echo 'export PATH="$HOME/.bun/bin:$PATH"' >> ~/.zshrc
+                    export PATH="$HOME/.bun/bin:$PATH"
+                else
+                    keys+=("bun")
+                    values+=("✔")
+                fi
+                ;;
+            *)
+                _generate_message 2 "Paquete '$package' no reconocido. Omitiendo..."
+                ;;
+    	esac
+    done
 
-	# Comprobar e instalar curl
-	if ! command -v curl &> /dev/null; then
-		_generate_message 2 "Procediendo a instalar curl..."
-		if [[ "$OSTYPE" == "darwin"* ]]; then
-			brew install curl
-		else
-			sudo apt update && sudo apt install curl -y
-		fi
-	else
-		keys+=("curl")
-		values+=("✔")
-	fi
-
-	# Comprobar e instalar Oh My Zsh
-	if [ ! -d "$HOME/.oh-my-zsh" ]; then
-		_generate_message 2 "Procediendo a instalar Oh My Zsh..."
-		sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-	else
-		keys+=("oh-my-zsh")
-		values+=("✔")
-	fi
-
-	# Comprobar e instalar grep
-	if ! command -v grep &> /dev/null; then
-		_generate_message 2 "Procediendo a instalar grep..."
-		if [[ "$OSTYPE" == "darwin"* ]]; then
-			brew install grep
-		else
-			sudo apt update && sudo apt install grep -y
-		fi
-	else
-		keys+=("grep")
-		values+=("✔")
-	fi
-
-	_generate_message 1 "Paquetes Insatalados"
-	_array_as_json_colors keys[@] values[@]
-
+    _generate_message 1 "Paquetes Instalados"
+    _array_as_json_colors keys[@] values[@]
 }
 
 replace_dir_alias(){
-
-	_generate_message 1 "Generando alias"
 
 	local CURRENT_PATH=$(pwd)
 	local ALIAS_FILE="alias_replace_zsh.zsh"
@@ -125,19 +132,31 @@ customize_shell_config(){
 	local RUTE_ZSHRC_FILE="$HOME/.zshrc"
 	local RUTE_OH_MY_ZSH="$HOME/.oh-my-zsh"
 	local RUTE_OH_MY_ZSH_CUSTOM="$RUTE_OH_MY_ZSH/custom"
+	local os_type=$(get_os_type)
+
+	# ========= Sistema Operativo ==========
+	_generate_message 1 "Sistema Operativo"
+	keys_system=("sistema")
+	values_system=("$os_type")
+	_array_as_json_colors keys_system[@] values_system[@]
+	printf ""
+
 
 	_generate_message 1 "Paquetes ha Instalar"
 	# ========= Menu de paquetes ==========
-	values=("Homebrew" "Zsh" "curl" "Oh My Zsh" "grep")
-	keys=("0" "1" "2" "3" "4")
-	_array_as_json_colors keys[@] values[@]
+	keys_package=("0" "1" "2" "3" "4" "5")
+	values_package=("Homebrew" "Zsh" "curl" "Oh My Zsh" "grep" "bun")
+	_array_as_json_colors keys_package[@] values_package[@]
 	printf ""
 
 	# ========= Instalando paquetes ==========
-	install_packages
+	install_packages "$os_type" "brew" "zsh" "curl" "oh-my-zsh" "grep" "bun"
 
 	# ========= Creando alias  de documentos ==========
+	_generate_message 1 "Generando alias"
 	replace_dir_alias
+	printf ""
+
 	# ========= Eliminando y creando los archivos custom ==========
 	_generate_message 1 "Instalando archivos de oh-my-zsh"
 	if [ -f "$RUTE_ZSHRC_FILE" ]; then
