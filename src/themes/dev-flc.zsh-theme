@@ -31,12 +31,12 @@ PROMPT="%B%{$FG[001]%}╭─${FG[202]}👽 { dev : ${FG[226]}F.L.C ${FG[202]}} $
 ${FG[001]}╰─${prompt_char}%{$reset_color%} $  "
 
 
-local ja="${FG[202]}{ node : ${FG[226]}${java_info}${FG[202]} } ${FG[239]}"
-local no="${FG[202]}{ java : ${FG[226]}${nvm_info}${FG[202]} } ${FG[239]}"
+local ja="${FG[202]}{ java : ${FG[226]}${java_info}${FG[202]} } ${FG[239]}"
+local no="${FG[202]}{ node : ${FG[226]}${nvm_info}${FG[202]} } ${FG[239]}"
 
 RPROMPT="${ja}${no}"
 
-ZSH_THEME_GIT_PROMPT_PREFIX=" %B%{$FG[255]%}in%{$reset_color%} ${FG[255]}"
+ZSH_THEME_GIT_PROMPT_PREFIX=" %B%{$FG[255]%}in%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_ADDED="%B%{$FG[001]%} ✚%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY="%B%{$FG[001]%} %{$reset_color%}"
