@@ -28,11 +28,11 @@ local virtualenv_info='$(virtualenv_prompt_info)'
 local prompt_char='$(prompt_char)'
 
 PROMPT="%B%{$FG[001]%}╭─${FG[202]}👽 { dev : ${FG[226]}F.L.C ${FG[202]}} ${FG[255]}on %B${FG[226]}%~%b${git_info}
-${FG[001]}╰─${prompt_char}%{$reset_color%} $  "
+${FG[001]}╰─${prompt_char}%{$reset_color%} $  %{$reset_color%}"
 
 
-local ja="${FG[202]}{ java : ${FG[226]}${java_info}${FG[202]} } ${FG[239]}"
-local no="${FG[202]}{ node : ${FG[226]}${nvm_info}${FG[202]} } ${FG[239]}"
+local ja="${FG[202]}{ java : ${FG[226]}${java_info}${FG[202]} } ${FG[239]}%{$reset_color%}"
+local no="${FG[202]}{ node : ${FG[226]}${nvm_info}${FG[202]} } ${FG[239]}%{$reset_color%}"
 
 RPROMPT="${ja}${no}"
 
