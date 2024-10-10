@@ -31,8 +31,8 @@ PROMPT="%B%{$FG[001]%}╭─${FG[202]}👽 { dev : ${FG[226]}F.L.C ${FG[202]}} $
 ${FG[001]}╰─${prompt_char}%{$reset_color%} $  "
 
 
-local ja="${FG[202]}{ node : ${FG[226]}${nvm_info}${FG[202]} } ${FG[239]}"
-local no="${FG[202]}{ java : ${FG[226]}${java_info}${FG[202]} } ${FG[239]}"
+local ja="${FG[202]}{ node : ${FG[226]}${java_info}${FG[202]} } ${FG[239]}"
+local no="${FG[202]}{ java : ${FG[226]}${nvm_info}${FG[202]} } ${FG[239]}"
 
 RPROMPT="${ja}${no}"
 
