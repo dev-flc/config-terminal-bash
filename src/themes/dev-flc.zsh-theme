@@ -36,7 +36,7 @@ local no="${FG[202]}{ node : ${FG[226]}${nvm_info}${FG[202]} } ${FG[239]}%{$rese
 
 RPROMPT="${ja}${no}"
 
-ZSH_THEME_GIT_PROMPT_PREFIX=" %B%{$FG[255]%}in%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_PREFIX=" %B%{$FG[255]%}in %{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_ADDED="%B%{$FG[001]%} ✚%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY="%B%{$FG[001]%} %{$reset_color%}"

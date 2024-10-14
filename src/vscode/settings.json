@@ -1,0 +1,191 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "node_modules": true,
+    ".sonar": true,
+    "manifest.json": true,
+    ".gitignore": false,
+    ".editorconfig": false,
+    "debug.log": true,
+    "package-lock.json": false,
+    "public": true
+  },
+  "search.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "node_modules": true,
+    ".sonar": true,
+    "manifest.json": true,
+    ".gitignore": true,
+    ".editorconfig": true,
+    "debug.log": true,
+    "package-lock.json": true,
+    "public": true
+  },
+  "files.watcherExclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "node_modules": true,
+    ".sonar": true,
+    "manifest.json": true,
+    ".gitignore": true,
+    ".editorconfig": true,
+    "debug.log": true,
+    "package-lock.json": true,
+    "public": true
+  },
+
+  "editor.rulers": [80, 120, 180],
+  "editor.formatOnPaste": true,
+  "editor.cursorBlinking": "expand",
+  "editor.guides.bracketPairs": true,
+  "files.autoSave": "off",
+  "workbench.iconTheme": "symbols",
+  "explorer.confirmDelete": false,
+  "editor.linkedEditing": true,
+  "editor.stickyScroll.enabled": true,
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.guides.highlightActiveBracketPair": true,
+  "security.workspace.trust.untrustedFiles": "open",
+  "editor.bracketPairColorization.enabled": true,
+  "material-icon-theme.activeIconPack": "react_redux",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "workbench.editor.labelFormat": "short",
+  "editor.minimap.renderCharacters": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "material-icon-theme.folders.theme": "specific",
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "terminal.integrated.commandsToSkipShell": [
+    "psl.stepIn",
+    "psl.stepOut",
+    "psl.stepOver",
+    "psl.sendToHostTerminal"
+  ],
+  "editor.language.colorizedBracketPairs": [
+    ["[", "]"],
+    ["(", ")"],
+    ["{", "}"],
+    ["do", "done"],
+    ["if", "elif", "else", "fi"],
+    ["case", "esac"]
+  ],
+  "[python]": {
+    "editor.language.colorizedBracketPairs": [[":"]],
+    "editor.formatOnType": true
+  },
+  "[shellscript]": {
+    "editor.language.colorizedBracketPairs": [
+      ["[", "]"],
+      ["{", "}"],
+      ["(", ")"],
+      ["do", "done"],
+      ["if", "elif", "else", "fi"],
+      ["case", "esac"]
+    ]
+  },
+  "multiCommand.commands": [
+    {
+      "command": "multiCommand.consoleLogBasic",
+      "sequence": [
+        "editor.action.clipboardCopyAction",
+        "editor.action.insertLineAfter",
+        {
+          "command": "editor.action.insertSnippet",
+          "args": {
+            "snippet": "console.log('${CLIPBOARD}==>', ${CLIPBOARD}$1)$2;"
+          }
+        }
+      ]
+    },
+    {
+      "command": "multiCommand.consoleLogTable",
+      "sequence": [
+        "editor.action.clipboardCopyAction",
+        "editor.action.insertLineAfter",
+        {
+          "command": "editor.action.insertSnippet",
+          "args": {
+            "snippet": "console.table(${CLIPBOARD}$1)$2;"
+          }
+        }
+      ]
+    },
+    {
+      "command": "multiCommand.consoleLogColors",
+      "sequence": [
+        "editor.action.clipboardCopyAction",
+        "editor.action.insertLineAfter",
+        {
+          "command": "editor.action.insertSnippet",
+          "args": {
+            "snippet": "console.log('%c${CLIPBOARD}==>', 'color:#ff6188;font-size:1rem;font-weight:bold;', ${CLIPBOARD}$1)$2;"
+          }
+        }
+      ]
+    }
+  ],
+  "editor.insertSpaces": false,
+  "terminal.integrated.env.windows": {},
+  "workbench.productIconTheme": "fluent-icons",
+  "symbols.hidesExplorerArrows": false,
+  "workbench.colorTheme": "One Dark Pro Flat",
+  "workbench.editor.empty.hint": "hidden",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+    },
+    "Command Prompt": {
+      "path": [
+        "${env:windir}\\Sysnative\\cmd.exe",
+        "${env:windir}\\System32\\cmd.exe"
+      ],
+      "args": [],
+      "icon": "terminal-cmd"
+    },
+    "Git Bash": {
+      "source": "zsh"
+    },
+    "Windows PowerShell": {
+      "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+    }
+  },
+
+  "explorer.fileNesting.enabled": true,
+
+  "explorer.fileNesting.patterns": {
+    "package.json": ".gcloudignore, .gitignore, .prettierignore, angular.json, autoversion.sh, clean-cache.sh, package-lock.json, renameProject.js, tslint.json, .browserslistrc, .editorconfig, .gitlab-ci.yml, .prettierrc, app.yaml, CHANGELOG.md, karma.conf.js, package.json, README.md, sonar-scanner.properties,.gitattributes,.lintstagedrc,changelog.config.js, LICENSE, bun.lockb"
+  },
+  "github.copilot.editor.enableAutoCompletions": true,
+  "redhat.telemetry.enabled": true,
+
+  "carbon.fontFamily": "Fira Code",
+  "scm.inputFontFamily": "Fira Code",
+  "editor.fontSize": 17,
+  "editor.fontFamily": "Fira Code",
+  "terminal.integrated.fontFamily": "Fira Code",
+  "editor.fontLigatures": true,
+  "window.newWindowProfile": "Predeterminado",
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  },
+  "editor.formatOnSave": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.minimap.enabled": false,
+  "workbench.statusBar.visible": false,
+  "debug.disassemblyView.showSourceCode": false,
+
+  "vscode_custom_css.imports": [
+    "file:///Users/f.l.c/.config_vscode/custom-style.css",
+    "file:///Users/f.l.c/.config_vscode/custom-script-blur.js"
+  ],
+  "workbench.sideBar.location": "right"
+}
